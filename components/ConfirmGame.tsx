@@ -14,10 +14,10 @@ export default function ConfirmGame({ token, nickname, onFinish }: Props) {
   const [clicked, setClicked] = useState(false);
 
   useEffect(() => {
-    // 페이지 렌더 시 즉시 버튼 위치 생성 + 측정 시작
+    // 전체 화면 기준으로 버튼 위치 생성
     setButtonPos({
-      top: Math.random() * 70 + 10,
-      left: Math.random() * 70 + 10,
+      top: Math.random() * 80 + 5, // 5% ~ 85%
+      left: Math.random() * 80 + 5, // 5% ~ 85%
     });
     setStartTime(performance.now());
   }, []);
@@ -39,7 +39,7 @@ export default function ConfirmGame({ token, nickname, onFinish }: Props) {
   if (clicked) return null;
 
   return (
-    <div className="relative w-[400px] h-[300px] border bg-gray-100 rounded-md">
+    <div className="fixed inset-0 bg-gray-100">
       <button
         onClick={handleClick}
         className="absolute bg-green-500 text-white px-4 py-2 rounded shadow"

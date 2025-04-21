@@ -52,7 +52,7 @@ export default function RankingBoard({ token, myScore }: Props) {
 
   return (
     <div className="w-full max-w-[320px] p-6 bg-white text-gray-800 border rounded-xl shadow text-center">
-      <h2 className="text-xl font-bold mb-2">🏆 Top 10 Rankings</h2>
+      <h2 className="text-xl font-bold mb-2">🏆 Top 10 Fastest</h2>
       <ul className="space-y-1 text-sm mb-4">
         {records.map((r, idx) => (
           <li key={idx}>

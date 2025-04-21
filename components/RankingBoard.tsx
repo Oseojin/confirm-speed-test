@@ -17,22 +17,37 @@ export default function RankingBoard({ token, myScore }: Props) {
   const [records, setRecords] = useState<Record[]>([]);
   const [rank, setRank] = useState<number | null>(null);
 
-  useEffect(() => {
-    // TOP 10 가져오기
-    fetch("/api/confirm-score")
-      .then((res) => res.json())
-      .then(setRecords)
-      .catch((err) => console.error("Failed to load ranking", err));
-
-    // 내 점수로 랭킹 가져오기
-    if (token) {
-      fetch(`/api/confirm-score?token=${token}`)
-        .then((res) => res.json())
-        .then((data) => {
-          if (typeof data.rank === "number") setRank(data.rank);
-        })
-        .catch((err) => console.error("Failed to load user rank", err));
+  const loadRankings = async () => {
+    try {
+      const res = await fetch("/api/confirm-score");
+      const data = await res.json();
+      setRecords(data);
+    } catch (err) {
+      console.error("Failed to load ranking", err);
     }
+  };
+
+  const loadMyRank = async () => {
+    if (!token) return;
+    try {
+      const res = await fetch(`/api/confirm-score?token=${token}`);
+      const data = await res.json();
+      if (typeof data.rank === "number") setRank(data.rank);
+    } catch (err) {
+      console.error("Failed to load user rank", err);
+    }
+  };
+
+  useEffect(() => {
+    loadRankings();
+    loadMyRank();
+
+    const interval = setInterval(() => {
+      loadRankings();
+      loadMyRank();
+    }, 5000); // 5초
+
+    return () => clearInterval(interval); // 컴포넌트 언마운트 시 clear
   }, [myScore, token]);
 
   return (

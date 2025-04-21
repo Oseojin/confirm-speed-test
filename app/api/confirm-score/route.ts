@@ -25,8 +25,8 @@ export async function POST(req: NextRequest) {
         result = await prisma.confirmRecord.update({
           where: { deviceId },
           data: {
-            scoreMs: score,
-            nickname,
+            scoreMs: score < existing.scoreMs ? score : existing.scoreMs,
+            nickname, // ✅ nickname 항상 업데이트
           },
         });
       } else {

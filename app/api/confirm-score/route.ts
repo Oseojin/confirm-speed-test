@@ -21,17 +21,15 @@ export async function POST(req: NextRequest) {
 
     let result;
     if (existing) {
-      if (score < existing.scoreMs) {
-        result = await prisma.confirmRecord.update({
-          where: { deviceId },
-          data: {
-            scoreMs: score < existing.scoreMs ? score : existing.scoreMs,
-            nickname, // ✅ nickname 항상 업데이트
-          },
-        });
-      } else {
-        result = existing;
-      }
+      result = await prisma.confirmRecord.update({
+        where: { deviceId },
+        data: {
+          // ✅ 닉네임 항상 업데이트
+          nickname,
+          // ✅ 점수가 더 빠를 경우에만 갱신
+          scoreMs: score < existing.scoreMs ? score : existing.scoreMs,
+        },
+      });
     } else {
       result = await prisma.confirmRecord.create({
         data: {

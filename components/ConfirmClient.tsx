@@ -39,7 +39,7 @@ export default function ConfirmClient() {
           <RankingBoard token={token} myScore={reactionTime} />
           <button
             onClick={handleTryAgain}
-            className="mt-4 px-4 py-2 bg-blue-600 text-white rounded shadow"
+            className="mt-6 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded shadow"
           >
             Try Again
           </button>
